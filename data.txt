@@ -1,2 +1,1 @@
-Linea 1: Esta es una Prueba
-Linea 2: de un programa de lectura de Archivos
+archivo1

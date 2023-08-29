@@ -10,7 +10,6 @@ const openai = new OpenAIApi(process.env.OPENAI_API_KEY );
 //const readline = require("readline");
 
 async function getTranscription(fileName){
-  const fs = require("fs")
   console.log('Iniciando Transcripción de Archivo: '+fileName)
   //buffer, // The audio file to transcribe.
   //"whisper-1", // The model to use for transcription.
@@ -18,13 +17,16 @@ async function getTranscription(fileName){
   //'json', // The format of the transcription.
   //1, // Temperature
   //'en' // Language
-  const resp = await openai.createTranscription(
+  const resp = await openai.audio.transcriptions.create(
+    fs.createReadStream(filename),
+    "whisper-1" )
+  /*const resp = await openai.createTranscription(
             fs.createReadStream(fileName),
             "whisper-1",            
             undefined,
             'json',
             1,
-            'en')
+            'en')*/
   .then((resp) => {
     console.log(resp.data.text)  
     return resp.data.text

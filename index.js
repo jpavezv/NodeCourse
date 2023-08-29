@@ -67,7 +67,7 @@ const upload = multer({
         } else {
             cb(new Error('Not an audio file!'), false);
         }
-        filename_tmp=storage.getDestination+'/'+storage.getFilename;
+        filename_tmp=storage.getFilename;
         console.log('Nombre Archivo: '+filename_tmp);
         //const transcripion =getTranscription(storage.getFilename);
         //console.log(transcription)

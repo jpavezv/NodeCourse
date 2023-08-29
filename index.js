@@ -53,8 +53,8 @@ const storage = multer.diskStorage({
         const filename_tmp=Date.now()+'.mp3';
         cb(null, filename_tmp);
         console.log('Nombre Archivo: '+filename_tmp);
-        const transcription = getTranscription('uploads/'+filename_tmp);
-        console.log('Transcripcion: '+transcription);
+       // const transcription = getTranscription('uploads/'+filename_tmp);
+        //console.log('Transcripcion: '+transcription);
     }
 });
 
@@ -67,7 +67,7 @@ const upload = multer({
         } else {
             cb(new Error('Not an audio file!'), false);
         }
-
+        console.log(storage);
         //const transcripion =getTranscription(storage.getFilename);
         //console.log(transcription)
     }

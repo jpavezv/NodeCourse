@@ -52,9 +52,6 @@ const storage = multer.diskStorage({
         // Set the file extension to .mp3
         const filename_tmp=Date.now()+'.mp3';
         cb(null, filename_tmp);
-       // console.log('Nombre Archivo: '+filename_tmp);
-       // const transcription = getTranscription('uploads/'+filename_tmp);
-        //console.log('Transcripcion: '+transcription);
     }
 });
 
@@ -67,18 +64,15 @@ const upload = multer({
         } else {
             cb(new Error('Not an audio file!'), false);
         }
-        filename_tmp=storage.getFilename;
-        console.log('Nombre Archivo: '+filename_tmp);
-        //const transcripion =getTranscription(storage.getFilename);
-        //console.log(transcription)
     }
 });
 
 app.use(express.static(path.join(__dirname, '.')));
 
-app.post('/upload', upload.single('audio'), (req, res) => {
+app.post('/upload', upload.single('audio'), async (req, res) => {
     console.log('Received audio file:', req.file.filename); // Log the saved filename
-    res.sendStatus(200);
+    const transcripcion = await getTranscription(path.join(__dirname, './uploads', req.file.filename));
+    console.log(transcripcion);
 });
 
 app.listen(port, () => {

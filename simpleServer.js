@@ -4,6 +4,10 @@ const url = require ('url')
 // SERVER with Routing
 const server = http.createServer((req,res) => {
   const pathName = req.url;
+  
+  const {query , pathname} = url.parse(req.url,true)
+  console.log(query)
+  console.log(pathname)
   if (pathName == '/') {
     /*res.writeHead(100,{
       'Content-type':'text/html',

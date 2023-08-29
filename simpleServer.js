@@ -9,10 +9,8 @@ const server = http.createServer((req,res) => {
   console.log(query)
   console.log(pathname)
   if (pathName == '/') {
-    /*res.writeHead(100,{
-      'Content-type':'text/html',
-      'my-own-header':'simple-server'
-    })*/
+    res.writeHead(200,{'Content-type':'text/html'})*
+    res.sendFile('record.html')
     res.end('<h1>Server Responding!</h1>') 
   }
   else if (pathName=='/product'){

@@ -65,14 +65,14 @@ const upload = multer({
         }
     }
 });
+console.log(upload)
+//const transcripcion= getTranscription('/uploads/'+upload.
+//console.log("Transcripcion: "+transcripcion);
 
 app.use(express.static(path.join(__dirname, '.')));
 
 app.post('/upload', upload.single('audio'), (req, res) => {
     console.log('Received audio file:', req.file.filename); // Log the saved filename
-    const transcripcion=getTranscription('/uploads/'+req.file.filename);
-    console.log("Transcripcion: "+transcripcion);
-
     res.sendStatus(200);
 });
 

@@ -17,16 +17,16 @@ async function getTranscription(fileName){
   //'json', // The format of the transcription.
   //1, // Temperature
   //'en' // Language
-  const resp = await openai.audio.transcriptions.create(
-    fs.createReadStream(filename),
-    "whisper-1" )
-  /*const resp = await openai.createTranscription(
+   /*const resp = await openai.createTranscription(
             fs.createReadStream(fileName),
             "whisper-1",            
             undefined,
             'json',
             1,
             'en')*/
+  const resp = await openai.audio.transcriptions.create(
+    fs.createReadStream(filename),
+    "whisper-1" )
   .then((resp) => {
     console.log(resp.data.text)  
     return resp.data.text

@@ -1,50 +1,34 @@
-const fs = require('fs');
-const lame = require('node-lame');
-const record = require('node-record-lpcm16');
+let mediaRecorder;
+let audioChunks = [];
 
-const audioFile = 'recorded_audio.mp3';
-const durationInSeconds = 10; // Change this to the desired recording duration
+navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
 
-function recordAudio(durationInSeconds) {
-  return new Promise((resolve, reject) => {
-    const writeStream = fs.createWriteStream(audioFile);
-    const encoder = new lame.Encoder({
-      channels: 2,
-      bitDepth: 16,
-      sampleRate: 44100,
-      bitRate: 128,
-      outSampleRate: 22050,
-      mode: lame.STEREO,
+        mediaRecorder.ondataavailable = event => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const formData = new FormData();
+            formData.append('audio', audioBlob);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+        };
     });
 
-    record
-      .start({
-        threshold: 0,
-        silence: '1.0',
-      })
-      .on('data', (data) => {
-        encoder.write(data);
-      });
+document.getElementById('start').addEventListener('click', () => {
+    mediaRecorder.start();
+    document.getElementById('start').disabled = true;
+    document.getElementById('stop').disabled = false;
+});
 
-    setTimeout(() => {
-      record.stop();
-      encoder.end();
-    }, durationInSeconds * 1000);
-
-    encoder.pipe(writeStream);
-    writeStream.on('finish', () => resolve());
-    writeStream.on('error', (err) => reject(err));
-  });
-}
-
-async function main() {
-  try {
-    console.log('Recording audio...');
-    await recordAudio(durationInSeconds);
-    console.log(`Audio recorded and saved to ${audioFile}`);
-  } catch (error) {
-    console.error('Error recording audio:', error);
-  }
-}
-
-main();
+document.getElementById('stop').addEventListener('click', () => {
+    mediaRecorder.stop();
+    document.getElementById('start').disabled = false;
+    document.getElementById('stop').disabled = true;
+});

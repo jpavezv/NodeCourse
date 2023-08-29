@@ -3,11 +3,9 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { Configuration, OpenAIApi } =require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
-});
-const openai = new OpenAIApi(configuration);
+const port = process.env.PORT;
+const OpenAIApi =require("openai");
+const openai = new OpenAIApi(process.env.OPENAI_API_KEY );
 
 //const readline = require("readline");
 
@@ -44,7 +42,7 @@ async function getTranscription(fileName){
 
 const app = express();
 
-const port = 3000;
+//const port = 3000;
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -73,7 +71,8 @@ app.use(express.static(path.join(__dirname, '.')));
 app.post('/upload', upload.single('audio'), (req, res) => {
     console.log('Received audio file:', req.file.filename); // Log the saved filename
     const transcripcion=getTranscription('/uploads/'+req.file.filename);
-    console.log(transcripcion);
+    console.log("Transcripcion: "+transcripcion);
+
     res.sendStatus(200);
 });
 

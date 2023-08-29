@@ -53,7 +53,8 @@ const storage = multer.diskStorage({
         const filename_tmp=Date.now()+'.mp3';
         cb(null, filename_tmp);
         console.log('Nombre Archivo: '+filename_tmp);
-        //const transcription = getTranscription(filename_tmp);
+        const transcription = getTranscription('uploads/'+filename_tmp);
+        console.log('Transcripcion: '+transcription);
     }
 });
 
@@ -71,9 +72,6 @@ const upload = multer({
         //console.log(transcription)
     }
 });
-console.log(upload)
-//const transcripcion= getTranscription('/uploads/'+upload.
-//console.log("Transcripcion: "+transcripcion);
 
 app.use(express.static(path.join(__dirname, '.')));
 

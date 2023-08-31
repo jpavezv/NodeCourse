@@ -39,7 +39,7 @@ async function getTranscription(fileName){
     console.log(e.stack)
     return (e.message)
   });
-
+  console.log('Transcripción Finalizada');
 }
 
 const app = express();

@@ -9,7 +9,7 @@ const openai = new OpenAIApi(process.env.OPENAI_API_KEY );
 
 //const readline = require("readline");
 
-function getTranscription(fileName){
+async function getTranscription(fileName){
   console.log('Iniciando Transcripción de Archivo: '+fileName)
   //buffer, // The audio file to transcribe.
   //"whisper-1", // The model to use for transcription.
@@ -24,7 +24,7 @@ function getTranscription(fileName){
             'json',
             1,
             'en')*/
-  const resp =  openai.audio.transcriptions.create(
+  const resp =  await openai.audio.transcriptions.create(
     fs.createReadStream(fileName),
     "whisper-1" )
   .then((resp) => {

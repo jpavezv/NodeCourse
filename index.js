@@ -25,7 +25,7 @@ async function getTranscription(fileName){
             1,
             'en')*/
   const resp = await openai.audio.transcriptions.create(
-    fs.createReadStream(filename),
+    fs.createReadStream(fileName),
     "whisper-1" )
   .then((resp) => {
     console.log(resp.data.text)  

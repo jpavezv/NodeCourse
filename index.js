@@ -73,7 +73,11 @@ app.use(express.static(path.join(__dirname, '.')));
 
 app.post('/upload', upload.single('audio'), async (req, res) => {
     console.log('Received audio file:', req.file.filename); // Log the saved filename
+    /*
     const transcripcion = getTranscription(path.join(__dirname, './uploads', req.file.filename));
+    */
+    const transcripcion = getTranscription(path.join(__dirname, './uploads', '1693286801786.mp3'));
+
     console.log(transcripcion);
 });
 
